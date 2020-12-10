@@ -91,6 +91,7 @@ let bufferline = extend({
 \ 'shadow': v:true,
 \ 'animation': v:true,
 \ 'icons': v:true,
+\ 'numbers': v:true,
 \ 'closable': v:true,
 \ 'semantic_letters': v:true,
 \ 'clickable': v:true,

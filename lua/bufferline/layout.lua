@@ -49,6 +49,7 @@ local function calculate(state)
   local base_width =
       1 -- sign
     + (opts.icons and 2 or 0)
+    + (opts.numbers and 2 or 0)
         -- name
     + 1 -- space after name
     + (opts.closable and 2 or 0)

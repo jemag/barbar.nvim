@@ -86,7 +86,8 @@ local function render(update_names)
 
   local click_enabled = vim.fn.has('tablineat') and opts.clickable
   local has_icons = opts.icons ~= false
-  local has_numbers = opts.icons == 'numbers'
+  local has_numbers = opts.numbers ~= false
+  -- local has_numbers = opts.icons == 'numbers'
   local has_close = opts.closable
 
   local layout = Layout.calculate(state)
@@ -125,23 +126,29 @@ local function render(update_names)
 
     local iconPrefix = ''
     local icon = ''
+    local number = ''
     if state.is_picking_buffer then
       local letter = JumpMode.get_letter(buffer_number)
       iconPrefix = hl('Buffer' .. status .. 'Target')
       icon =
         (letter ~= nil and letter or ' ') ..
         (has_icons and ' ' or '')
-    elseif has_icons then
+    else
       if has_numbers then
         local number_text = tostring(i)
         iconPrefix = ''
-        icon = number_text .. (#number_text > 1 and '' or ' ')
-      else
+        number = number_text .. (#number_text > 1 and '' or ' ')
+        -- number = number_text
+        print("number: " .. number .. ".")
+      end
+      if has_icons then
         local iconChar, iconHl = get_icon(buffer_name, vim.fn.getbufvar(buffer_number, '&filetype'), status)
         iconPrefix = hl(status ~= 'Inactive' and iconHl or 'BufferInactive')
         icon = iconChar .. ' '
+        print("icon: " .. icon .. ".")
       end
     end
+    print("icon prefix: " .. iconPrefix .. ".");
 
     local closePrefix = ''
     local close = ''
@@ -159,6 +166,8 @@ local function render(update_names)
             '%' .. buffer_number .. '@BufferlineCloseClickHandler@' .. closePrefix
       end
     end
+
+    print("close prefix: " .. closePrefix .. ".")
 
     local clickable = ''
     if click_enabled then
@@ -178,6 +187,7 @@ local function render(update_names)
         { clickable,       ''},
         { separatorPrefix, separator},
         { '',              padding},
+        { '',              number},
         { iconPrefix,      icon},
         { namePrefix,      name},
         { '',              padding},
@@ -252,7 +262,7 @@ local function render(update_names)
   -- }
 
   result = result .. hl('TabLineFill')
-
+  print("render result: " .. result .. ".")
   return result
 end
 

@@ -55,7 +55,7 @@ end
 
 local function collect(iterator)
   local result = {}
-  for it, v in iterator do
+  for _, v in iterator do
     table.insert(result, v)
   end
   return result
@@ -73,7 +73,7 @@ local function get_buffer_name(number)
   return basename(name)
 end
 
-function get_unique_name (first, second)
+local function get_unique_name (first, second)
   local first_parts  = split(first, '/')
   local second_parts = split(second, '/')
 
